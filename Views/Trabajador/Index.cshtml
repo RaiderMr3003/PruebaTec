@@ -110,6 +110,86 @@
     </div>
 </div>
 
+@* Modal Editar trabajador *@
+<div class="modal fade" id="editTrabajadorModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title fw-bold">Editar Trabajador</h5>
+                    <small class="text-muted">Modifique los datos del trabajador.</small>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="formEditTrabajador" class="row g-3">
+                    <input type="hidden" id="edit-id" name="Id">
+                    <input type="hidden" id="edit-fotoActual" name="FotoActual">
+
+                    <div class="col-md-3 d-flex justify-content-center align-items-center">
+                        <div class="position-relative d-inline-block">
+                            <img id="edit-previewFoto" src="/images/default-user.png" class="rounded-circle border" width="120" height="120">
+                            <label for="edit-foto" class="btn btn-primary btn-sm rounded-circle position-absolute bottom-0 end-0">
+                                <i class="bi bi-camera"></i>
+                            </label>
+                            <input type="file" id="edit-foto" name="Foto" class="d-none" accept="image/*">
+                        </div>
+                    </div>
+
+                    <div class="col-md-9">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombres</label>
+                                <input type="text" class="form-control" name="Nombres" id="edit-nombres" placeholder="Ingrese los nombres">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Apellidos</label>
+                                <input type="text" class="form-control" name="Apellidos" id="edit-apellidos" placeholder="Ingrese los apellidos">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Tipo de Documento</label>
+                                <select class="form-select" name="TipoDocumentoId" id="edit-tipoDocumento">
+                                    <option value="">Cargando...</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Nro. Documento</label>
+                                <input type="text" class="form-control" name="NumeroDocumento" id="edit-numeroDocumento" placeholder="Ingrese el número">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Sexo</label>
+                                <select class="form-select" name="SexoId" id="edit-sexo">
+                                    <option value="">Cargando...</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control" name="FechaNacimiento" id="edit-fechaNacimiento">
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Dirección</label>
+                                <textarea class="form-control" name="Direccion" id="edit-direccion" placeholder="Ingrese la dirección completa"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="btnEditTrabajador" class="btn btn-warning">
+                    <i class="bi bi-save"></i> Actualizar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts{
     <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

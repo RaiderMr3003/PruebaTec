@@ -111,5 +111,28 @@ namespace PruebaTec.Controllers
                 return BadRequest(new { success = false, message = "Error al guardar: " + ex.Message });
             }
         }
+
+        [HttpGet("ObtenerTrabajador/{id}")]
+        public async Task<IActionResult> ObtenerTrabajador(int id)
+        {
+            try
+            {
+                var trabajador = await _DBContext.Trabajadors
+                    .Include(t => t.oTipoDocumento)
+                    .Include(t => t.oSexo)
+                    .FirstOrDefaultAsync(t => t.Id == id);
+
+                if (trabajador == null)
+                {
+                    return NotFound(new { success = false, message = "Trabajador no encontrado" });
+                }
+
+                return Ok(trabajador);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = "Error al obtener trabajador: " + ex.Message });
+            }
+        }
     }
 }

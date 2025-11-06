@@ -33,6 +33,31 @@ function event() {
     $('#btnAddTrabajador').on('click', function () {
         agregarTrabajador();
     });
+
+    $(document).on('click', '.btn-editar', function () {
+        const id = $(this).data('id');
+        cargarDatosTrabajador(id);
+    });
+
+    $('#edit-foto').on('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $('#edit-previewFoto').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    $('#editTrabajadorModal').on('hidden.bs.modal', function () {
+        $('#formEditTrabajador')[0].reset();
+        $('#edit-previewFoto').attr('src', '/images/default-user.png');
+    });
+
+    $('#btnEditTrabajador').on('click', function () {
+        editarTrabajador();
+    });
 }
 
 function initTable() {
@@ -84,13 +109,17 @@ function listarTipoDocumento() {
         type: 'GET',
         dataType: 'json',
         success: function (data) {
-            const $select = $('#add-tipoDocumento');
-            $select.empty(); 
+            const $selectAdd = $('#add-tipoDocumento');
+            $selectAdd.empty();
+            $selectAdd.append('<option value="">Seleccione...</option>');
 
-            $select.append('<option value="">Seleccione...</option>');
+            const $selectEdit = $('#edit-tipoDocumento');
+            $selectEdit.empty();
+            $selectEdit.append('<option value="">Seleccione...</option>');
 
             data.forEach(function (item) {
-                $select.append(`<option value="${item.id}">${item.descripcion}</option>`);
+                $selectAdd.append(`<option value="${item.id}">${item.descripcion}</option>`);
+                $selectEdit.append(`<option value="${item.id}">${item.descripcion}</option>`);
             });
         },
         error: function (xhr, status, error) {
@@ -106,17 +135,21 @@ function listarSexo() {
         type: 'GET',
         dataType: 'json',
         success: function (data) {
-            const $select = $('#add-sexo');
-            $select.empty();
+            const $selectAdd = $('#add-sexo');
+            $selectAdd.empty();
+            $selectAdd.append('<option value="">Seleccione...</option>');
 
-            $select.append('<option value="">Seleccione...</option>');
+            const $selectEdit = $('#edit-sexo');
+            $selectEdit.empty();
+            $selectEdit.append('<option value="">Seleccione...</option>');
 
             data.forEach(function (item) {
-                $select.append(`<option value="${item.id}">${item.descripcion}</option>`);
+                $selectAdd.append(`<option value="${item.id}">${item.descripcion}</option>`);
+                $selectEdit.append(`<option value="${item.id}">${item.descripcion}</option>`);
             });
         },
         error: function (xhr, status, error) {
-            console.error("Error al obtener los tipos de documento:", error);
+            console.error("Error al obtener los sexos:", error);
             alert('Error al cargar los datos.');
         }
     });
@@ -194,6 +227,40 @@ function agregarTrabajador() {
                 icon: 'error',
                 title: 'Error',
                 text: mensaje
+            });
+        }
+    });
+}
+
+function cargarDatosTrabajador(id) {
+    $.ajax({
+        url: '/Trabajador/ObtenerTrabajador/' + id,
+        type: 'GET',
+        success: function (trabajador) {
+            $('#edit-id').val(trabajador.id);
+            $('#edit-fotoActual').val(trabajador.foto || '');
+
+            $('#edit-nombres').val(trabajador.nombres);
+            $('#edit-apellidos').val(trabajador.apellidos);
+            $('#edit-tipoDocumento').val(trabajador.tipoDocumento);
+            $('#edit-numeroDocumento').val(trabajador.numeroDocumento);
+            $('#edit-sexo').val(trabajador.sexo);
+            $('#edit-fechaNacimiento').val(trabajador.fechaNacimiento.split('T')[0]); // Formato fecha
+            $('#edit-direccion').val(trabajador.direccion);
+
+            if (trabajador.foto) {
+                $('#edit-previewFoto').attr('src', trabajador.foto);
+            } else {
+                $('#edit-previewFoto').attr('src', '/images/default-user.png');
+            }
+
+            $('#editTrabajadorModal').modal('show');
+        },
+        error: function (xhr, status, error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo cargar la información del trabajador.'
             });
         }
     });

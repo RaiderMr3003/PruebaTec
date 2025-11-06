@@ -134,5 +134,94 @@ namespace PruebaTec.Controllers
                 return BadRequest(new { success = false, message = "Error al obtener trabajador: " + ex.Message });
             }
         }
+
+        [HttpPost("EditarTrabajador")]
+        public async Task<IActionResult> EditarTrabajador([FromForm] Trabajador trabajador, IFormFile? foto, string? fotoActual)
+        {
+            try
+            {
+                var trabajadorExistente = await _DBContext.Trabajadors.FindAsync(trabajador.Id);
+
+                if (trabajadorExistente == null)
+                {
+                    return NotFound(new { success = false, message = "Trabajador no encontrado" });
+                }
+
+                var existe = _DBContext.Trabajadors
+                    .Any(t => t.NumeroDocumento == trabajador.NumeroDocumento
+                           && t.TipoDocumento == trabajador.TipoDocumento
+                           && t.Id != trabajador.Id
+                           && t.Activo == true);
+
+                if (existe)
+                {
+                    return BadRequest(new { success = false, message = "Ya existe otro trabajador con ese tipo y número de documento" });
+                }
+
+                trabajadorExistente.Nombres = trabajador.Nombres;
+                trabajadorExistente.Apellidos = trabajador.Apellidos;
+                trabajadorExistente.TipoDocumento = trabajador.TipoDocumento;
+                trabajadorExistente.NumeroDocumento = trabajador.NumeroDocumento;
+                trabajadorExistente.Sexo = trabajador.Sexo;
+                trabajadorExistente.FechaNacimiento = trabajador.FechaNacimiento;
+                trabajadorExistente.Direccion = trabajador.Direccion;
+
+                if (foto != null && foto.Length > 0)
+                {
+                    var extensionesPermitidas = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    var extension = Path.GetExtension(foto.FileName).ToLowerInvariant();
+
+                    if (!extensionesPermitidas.Contains(extension))
+                    {
+                        return BadRequest(new { success = false, message = "Solo se permiten imágenes (jpg, jpeg, png, gif)" });
+                    }
+
+                    if (foto.Length > 5 * 1024 * 1024)
+                    {
+                        return BadRequest(new { success = false, message = "La imagen no debe superar los 5MB" });
+                    }
+
+                    if (!string.IsNullOrEmpty(fotoActual))
+                    {
+                        var rutaFotoAnterior = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fotoActual.TrimStart('/'));
+                        if (System.IO.File.Exists(rutaFotoAnterior))
+                        {
+                            System.IO.File.Delete(rutaFotoAnterior);
+                        }
+                    }
+
+                    var nombreBase = trabajador.NumeroDocumento;
+                    var nombreArchivo = $"{nombreBase}{extension}";
+                    var carpetaFotos = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "fotos");
+
+                    if (!Directory.Exists(carpetaFotos))
+                    {
+                        Directory.CreateDirectory(carpetaFotos);
+                    }
+
+                    var rutaCompleta = Path.Combine(carpetaFotos, nombreArchivo);
+
+                    using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+                    {
+                        await foto.CopyToAsync(stream);
+                    }
+
+                    trabajadorExistente.Foto = $"/images/fotos/{nombreArchivo}";
+                }
+                else
+                {
+                    trabajadorExistente.Foto = fotoActual;
+                }
+
+                _DBContext.Trabajadors.Update(trabajadorExistente);
+                await _DBContext.SaveChangesAsync();
+
+                return Ok(new { success = true, message = "Trabajador actualizado correctamente" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = "Error al actualizar: " + ex.Message });
+            }
+        }
     }
 }

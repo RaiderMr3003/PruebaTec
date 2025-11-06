@@ -245,7 +245,7 @@ function cargarDatosTrabajador(id) {
             $('#edit-tipoDocumento').val(trabajador.tipoDocumento);
             $('#edit-numeroDocumento').val(trabajador.numeroDocumento);
             $('#edit-sexo').val(trabajador.sexo);
-            $('#edit-fechaNacimiento').val(trabajador.fechaNacimiento.split('T')[0]); // Formato fecha
+            $('#edit-fechaNacimiento').val(trabajador.fechaNacimiento.split('T')[0]);
             $('#edit-direccion').val(trabajador.direccion);
 
             if (trabajador.foto) {
@@ -261,6 +261,82 @@ function cargarDatosTrabajador(id) {
                 icon: 'error',
                 title: 'Error',
                 text: 'No se pudo cargar la información del trabajador.'
+            });
+        }
+    });
+}
+
+function editarTrabajador() {
+    const id = $('#edit-id').val();
+    const nombres = $('#edit-nombres').val();
+    const apellidos = $('#edit-apellidos').val();
+    const tipoDocumento = $('#edit-tipoDocumento').val();
+    const sexo = $('#edit-sexo').val();
+    const numeroDocumento = $('#edit-numeroDocumento').val();
+    const fechaNacimiento = $('#edit-fechaNacimiento').val();
+    const direccion = $('#edit-direccion').val();
+
+    if (!nombres || !apellidos || !tipoDocumento || !sexo || !numeroDocumento || !fechaNacimiento) {
+        Swal.fire({
+            position: 'top',
+            icon: 'warning',
+            title: 'Campos Incompletos',
+            text: 'Por favor, complete todos los campos requeridos.'
+        });
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('Id', id);
+    formData.append('Nombres', nombres.toUpperCase());
+    formData.append('Apellidos', apellidos.toUpperCase());
+    formData.append('TipoDocumento', parseInt(tipoDocumento));
+    formData.append('Sexo', parseInt(sexo));
+    formData.append('NumeroDocumento', numeroDocumento.toUpperCase());
+    formData.append('FechaNacimiento', fechaNacimiento);
+    formData.append('Direccion', direccion.toUpperCase());
+    formData.append('FotoActual', $('#edit-fotoActual').val());
+
+    const fotoInput = document.getElementById('edit-foto');
+    if (fotoInput.files.length > 0) {
+        formData.append('foto', fotoInput.files[0]);
+    }
+
+    $.ajax({
+        url: '/Trabajador/EditarTrabajador',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            if (response.success) {
+                $('#editTrabajadorModal').modal('hide');
+                $('#tablaTrabajadores').DataTable().ajax.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: response.message,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            } else {
+                Swal.fire({
+                    position: 'top',
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
+            }
+        },
+        error: function (xhr, status, error) {
+            let mensaje = 'Ocurrió un error al actualizar el trabajador.';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                mensaje = xhr.responseJSON.message;
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: mensaje
             });
         }
     });

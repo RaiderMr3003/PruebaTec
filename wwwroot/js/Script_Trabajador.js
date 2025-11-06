@@ -58,6 +58,26 @@ function event() {
     $('#btnEditTrabajador').on('click', function () {
         editarTrabajador();
     });
+
+    $(document).on('click', '.btn-eliminar', function () {
+        const id = $(this).data('id');
+
+        Swal.fire({
+            position: 'top',
+            title: 'Cuidado',
+            text: "¿Está seguro de eliminar el registro?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                eliminarTrabajador(id);
+            }
+        });
+    });
 }
 
 function initTable() {
@@ -334,6 +354,45 @@ function editarTrabajador() {
             if (xhr.responseJSON && xhr.responseJSON.message) {
                 mensaje = xhr.responseJSON.message;
             }
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: mensaje
+            });
+        }
+    });
+}
+
+function eliminarTrabajador(id) {
+    $.ajax({
+        url: '/Trabajador/EliminarTrabajador/' + id,
+        type: 'POST',
+        success: function (response) {
+            if (response.success) {
+                $('#tablaTrabajadores').DataTable().ajax.reload();
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Eliminado',
+                    text: response.message,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
+            }
+        },
+        error: function (xhr, status, error) {
+            let mensaje = 'Ocurrió un error al eliminar el trabajador.';
+
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                mensaje = xhr.responseJSON.message;
+            }
+
             Swal.fire({
                 icon: 'error',
                 title: 'Error',

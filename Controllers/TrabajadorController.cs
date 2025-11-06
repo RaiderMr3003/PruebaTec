@@ -223,5 +223,30 @@ namespace PruebaTec.Controllers
                 return BadRequest(new { success = false, message = "Error al actualizar: " + ex.Message });
             }
         }
+
+        [HttpPost("EliminarTrabajador/{id}")]
+        public async Task<IActionResult> EliminarTrabajador(int id)
+        {
+            try
+            {
+                var trabajador = await _DBContext.Trabajadors.FindAsync(id);
+
+                if (trabajador == null)
+                {
+                    return NotFound(new { success = false, message = "Trabajador no encontrado" });
+        }
+
+                trabajador.Activo = false;
+
+                _DBContext.Trabajadors.Update(trabajador);
+                await _DBContext.SaveChangesAsync();
+
+                return Ok(new { success = true, message = "Trabajador eliminado correctamente" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = "Error al eliminar: " + ex.Message });
+            }
+        }
     }
 }

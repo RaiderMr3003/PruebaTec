@@ -25,7 +25,7 @@ public partial class Trabajador
 
     public bool? Activo { get; set; }
 
-    public virtual Sexo SexoNavigation { get; set; } = null!;
+    public virtual Sexo oSexo { get; set; } = null!;
 
-    public virtual TipoDocumento TipoDocumentoNavigation { get; set; } = null!;
+    public virtual TipoDocumento oTipoDocumento { get; set; } = null!;
 }

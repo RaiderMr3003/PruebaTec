@@ -6,29 +6,33 @@
             dataSrc: ''
         },
         columns: [
-            { data: 'nombres' },
-            { data: 'apellidos' },
-            { data: 'tipoDocumento' },
-            { data: 'numeroDocumento' },
-            { data: 'sexo' },
-            { data: 'fechaNacimiento', render: d => new Date(d).toLocaleDateString() },
-            { data: 'direccion' },
+            { data: 'nombres', width: '20%' },
+            { data: 'apellidos', width: '20%' },
+            { data: 'oTipoDocumento.descripcion', width: '10%' },
+            { data: 'numeroDocumento', width: '10%' },
+            { data: 'oSexo.abrev', width: '5%' },
             {
-                data: 'idTrabajador',
+                data: 'fechaNacimiento',
+                width: '10%'
+            },
+            { data: 'direccion', width: '20%' },
+            {
+                data: 'id',
                 render: function (id) {
                     return `
-                    <div class="btn-group" role="group">
-                        <button class="btn btn-sm btn-warning btn-editar" data-id="${id}">
-                            <i class="bi bi-pencil-square"></i> Editar
-                        </button>
-                        <button class="btn btn-sm btn-danger btn-eliminar" data-id="${id}">
-                            <i class="bi bi-trash"></i> Eliminar
-                        </button>
-                    </div>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-sm btn-warning btn-editar" data-id="${id}">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger btn-eliminar" data-id="${id}">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
                 `;
                 },
                 orderable: false,
-                searchable: false
+                searchable: false,
+                width: '5%'
             },
         ]
     });

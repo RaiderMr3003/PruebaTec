@@ -21,7 +21,10 @@ namespace PruebaTec.Controllers
         [HttpGet]
         public IActionResult listarTrabajador()
         {
-            var trabajadores = _DBContext.Trabajadors.ToList();
+            var trabajadores = _DBContext.Trabajadors
+            .Include(c => c.oTipoDocumento)
+            .Include(c => c.oSexo)
+            .ToList();
             return Ok(trabajadores);
         }
     }

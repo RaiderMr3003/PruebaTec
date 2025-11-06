@@ -64,12 +64,12 @@ public partial class TrabajadoresPruebaContext : DbContext
             entity.Property(e => e.Nombres).HasMaxLength(100);
             entity.Property(e => e.NumeroDocumento).HasMaxLength(20);
 
-            entity.HasOne(d => d.SexoNavigation).WithMany(p => p.Trabajadors)
+            entity.HasOne(d => d.oSexo).WithMany(p => p.Trabajadors)
                 .HasForeignKey(d => d.Sexo)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Trabajador_Sexo");
 
-            entity.HasOne(d => d.TipoDocumentoNavigation).WithMany(p => p.Trabajadors)
+            entity.HasOne(d => d.oTipoDocumento).WithMany(p => p.Trabajadors)
                 .HasForeignKey(d => d.TipoDocumento)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Trabajador_TipoDocumento");

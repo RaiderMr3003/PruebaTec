@@ -48,18 +48,75 @@ namespace PruebaTec.Controllers
         [HttpPost("AgregarTrabajador")]
         public async Task<IActionResult> AgregarTrabajador([FromForm] Trabajador trabajador, IFormFile? foto)
         {
-            var existe = _DBContext.Trabajadors
-                .Any(t => t.NumeroDocumento == trabajador.NumeroDocumento
-                && t.TipoDocumento == trabajador.TipoDocumento
-                && t.Activo == true);
-
-            if (existe)
-            {
-                return BadRequest(new { success = false, message = "Ya existe un trabajador con ese tipo y número de documento" });
-            }
-
             try
             {
+                var trabajadorExistente = await _DBContext.Trabajadors
+                    .FirstOrDefaultAsync(t => t.NumeroDocumento == trabajador.NumeroDocumento
+                                           && t.TipoDocumento == trabajador.TipoDocumento);
+
+                if (trabajadorExistente != null && trabajadorExistente.Activo == true)
+                {
+                    return BadRequest(new { success = false, message = "Ya existe un trabajador activo con ese tipo y número de documento" });
+                }
+
+                if (trabajadorExistente != null && trabajadorExistente.Activo == false)
+                {
+                    trabajadorExistente.Nombres = trabajador.Nombres;
+                    trabajadorExistente.Apellidos = trabajador.Apellidos;
+                    trabajadorExistente.Sexo = trabajador.Sexo;
+                    trabajadorExistente.FechaNacimiento = trabajador.FechaNacimiento;
+                    trabajadorExistente.Direccion = trabajador.Direccion;
+                    trabajadorExistente.Activo = true;
+
+                    if (foto != null && foto.Length > 0)
+                    {
+                        var extensionesPermitidas = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                        var extension = Path.GetExtension(foto.FileName).ToLowerInvariant();
+
+                        if (!extensionesPermitidas.Contains(extension))
+                        {
+                            return BadRequest(new { success = false, message = "Solo se permiten imágenes (jpg, jpeg, png, gif)" });
+                        }
+
+                        if (foto.Length > 5 * 1024 * 1024)
+                        {
+                            return BadRequest(new { success = false, message = "La imagen no debe superar los 5MB" });
+                        }
+
+                        if (!string.IsNullOrEmpty(trabajadorExistente.Foto))
+                        {
+                            var rutaFotoAnterior = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", trabajadorExistente.Foto.TrimStart('/'));
+                            if (System.IO.File.Exists(rutaFotoAnterior))
+                            {
+                                System.IO.File.Delete(rutaFotoAnterior);
+                            }
+                        }
+
+                        var nombreBase = trabajador.NumeroDocumento;
+                        var nombreArchivo = $"{nombreBase}{extension}";
+                        var carpetaFotos = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "fotos");
+
+                        if (!Directory.Exists(carpetaFotos))
+                        {
+                            Directory.CreateDirectory(carpetaFotos);
+                        }
+
+                        var rutaCompleta = Path.Combine(carpetaFotos, nombreArchivo);
+
+                        using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+                        {
+                            await foto.CopyToAsync(stream);
+                        }
+
+                        trabajadorExistente.Foto = $"/images/fotos/{nombreArchivo}";
+                    }
+
+                    _DBContext.Trabajadors.Update(trabajadorExistente);
+                    await _DBContext.SaveChangesAsync();
+
+                    return Ok(new { success = true, message = "Trabajador reactivado y actualizado correctamente" });
+                }
+
                 trabajador.Activo = true;
 
                 if (foto != null && foto.Length > 0)
@@ -79,7 +136,6 @@ namespace PruebaTec.Controllers
 
                     var nombreBase = trabajador.NumeroDocumento;
                     var nombreArchivo = $"{nombreBase}{extension}";
-
                     var carpetaFotos = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "fotos");
 
                     if (!Directory.Exists(carpetaFotos))
@@ -234,7 +290,7 @@ namespace PruebaTec.Controllers
                 if (trabajador == null)
                 {
                     return NotFound(new { success = false, message = "Trabajador no encontrado" });
-        }
+                }
 
                 trabajador.Activo = false;
 

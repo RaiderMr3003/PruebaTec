@@ -4,6 +4,7 @@ using PruebaTec.Models;
 
 namespace PruebaTec.Controllers
 {
+    [Route("[controller]")]
     public class TrabajadorController : Controller
     {
         private readonly TrabajadoresPruebaContext _DBContext;
@@ -18,14 +19,30 @@ namespace PruebaTec.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult listarTrabajador()
+        [HttpGet("ListarTrabajador")]
+        public IActionResult ListarTrabajador()
         {
             var trabajadores = _DBContext.Trabajadors
-            .Include(c => c.oTipoDocumento)
-            .Include(c => c.oSexo)
+            .Include(t => t.oTipoDocumento)
+            .Include(t => t.oSexo)
+            .Where(t => t.Activo == true)
+            .OrderBy(t => t.Id)
             .ToList();
             return Ok(trabajadores);
+        }
+
+        [HttpGet("ListarTipoDocumento")]
+        public IActionResult ListarTipoDocumento()
+        {
+            var tiposDocumento = _DBContext.TipoDocumentos.ToList();
+            return Ok(tiposDocumento);
+        }
+
+        [HttpGet("ListarSexo")]
+        public IActionResult ListarSexo()
+        {
+            var sexo = _DBContext.Sexos.ToList();
+            return Ok(sexo);
         }
     }
 }

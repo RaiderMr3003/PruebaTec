@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "Gestion de Trabajadores";
+}
+<link href="~/css/Trabajador.css" rel="stylesheet" />
+<link href="//cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+<div class="container bg-white p-4 rounded shadow-sm">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+        <h5 class="fw-bold mb-2 mb-md-0">
+            <i class="bi bi-people-fill text-primary me-2"></i>Gestión de Trabajadores
+        </h5>
+        <button id="btnModalTrabajador" class="btn btn-primary">
+            <i class="bi-person-add me-1 fs-5"></i>Nuevo Trabajador
+        </button>
+    </div>
+
+    <div class="table-responsive">
+        <table id="tablaTrabajadores" class="table table-striped align-middle w-100">
+            <thead class="text-center text-secondary">
+                <tr>
+                    <th>NOMBRES</th>
+                    <th>APELLIDOS</th>
+                    <th>T. DOCUMENTO</th>
+                    <th>NRO. DOCUMENTO</th>
+                    <th>SEXO</th>
+                    <th>FECHA NACIMIENTO</th>
+                    <th>DIRECCIÓN</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addTrabajadorModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title fw-bold">Registrar Nuevo Trabajador</h5>
+                    <small class="text-muted">Complete el formulario para agregar un nuevo miembro al equipo.</small>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="formTrabajador" class="row g-3">
+
+                    <div class="col-md-3 d-flex justify-content-center align-items-center">
+                        <div class="position-relative d-inline-block">
+                            <img id="previewFoto" src="/images/default-user.png" class="rounded-circle border" width="120" height="120">
+                            <label for="foto" class="btn btn-primary btn-sm rounded-circle position-absolute bottom-0 end-0">
+                                <i class="bi bi-camera"></i>
+                            </label>
+                            <input type="file" id="foto" name="foto" class="d-none" accept="image/*">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-9">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombres</label>
+                                <input type="text" class="form-control" name="Nombres" placeholder="Ingrese los nombres">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Apellidos</label>
+                                <input type="text" class="form-control" name="Apellidos" placeholder="Ingrese los apellidos">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Tipo de Documento</label>
+                                <select class="form-select" name="TipoDocumento">
+                                    <option value="">Seleccione...</option>
+                                    <option value="1">DNI</option>
+                                    <option value="2">Cédula de Ciudadanía</option>
+                                    <option value="3">Carnet de Extranjería</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Nro. Documento</label>
+                                <input type="text" class="form-control" name="NumeroDocumento" placeholder="Ingrese el número">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Sexo</label>
+                                <select class="form-select" name="Sexo">
+                                    <option value="">Seleccione...</option>
+                                    <option value="1">Masculino</option>
+                                    <option value="2">Femenino</option>
+                                    <option value="3">Otro</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control" name="FechaNacimiento">
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Dirección</label>
+                                <textarea class="form-control" name="Direccion" placeholder="Ingrese la dirección completa"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="btnGuardar" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
+    <script src="~/js/Script_Trabajador.js"></script>
+}

@@ -1,0 +1,16 @@
+﻿/* Redondear más el modal */
+.modal-content {
+    border-radius: 1.5rem !important;
+}
+
+/* Ajuste general para móviles */
+@media (max-width: 992px) {
+    .modal-dialog {
+        max-width: 95%;
+        margin: 1rem auto;
+    }
+
+    .modal-body {
+        padding: 1rem;
+    }
+}

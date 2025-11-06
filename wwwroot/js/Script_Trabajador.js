@@ -19,6 +19,22 @@ function event() {
         console.log('El modal se cerró');
     });
 
+    $('#add-foto').on('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $('#add-previewFoto').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    $('#btnAddTrabajador').on('click', function () {
+        agregarTrabajador();
+    });
+}
+
 function initTable() {
     $('#tablaTrabajadores').DataTable({
         ajax: {
@@ -39,15 +55,15 @@ function initTable() {
                 data: 'id',
                 render: function (id) {
                     return `
-                <div class="btn-group" role="group">
-                    <button class="btn btn-sm btn-warning btn-editar" data-id="${id}">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger btn-eliminar" data-id="${id}">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </div>
-                `;
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-warning btn-editar" data-id="${id}">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger btn-eliminar" data-id="${id}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    `;
                 },
                 orderable: false,
                 searchable: false,
@@ -98,7 +114,7 @@ function listarSexo() {
             data.forEach(function (item) {
                 $select.append(`<option value="${item.id}">${item.descripcion}</option>`);
             });
-            },
+        },
         error: function (xhr, status, error) {
             console.error("Error al obtener los tipos de documento:", error);
             alert('Error al cargar los datos.');
@@ -106,11 +122,79 @@ function listarSexo() {
     });
 }
 
-    $('#btnAddModalTrabajador').on('click', function () {
-        $('#addTrabajadorModal').modal('show');
-    });
+function agregarTrabajador() {
+    const nombres = $('#add-nombres').val();
+    const apellidos = $('#add-apellidos').val();
+    const tipoDocumento = $('#add-tipoDocumento').val();
+    const sexo = $('#add-sexo').val();
+    const numeroDocumento = $('#add-numeroDocumento').val();
+    const fechaNacimiento = $('#add-fechaNacimiento').val();
+    const direccion = $('#add-direccion').val();
 
-    $('#addTrabajadorModal').on('hidden.bs.modal', function () {
-        console.log('El modal se cerró');
+    if (!nombres || !apellidos || !tipoDocumento || !sexo || !numeroDocumento || !fechaNacimiento || !direccion) {
+        Swal.fire({
+            position: 'top',
+            icon: 'warning',
+            title: 'Campos Incompletos',
+            text: 'Por favor, complete todos los campos requeridos.'
+        });
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('Nombres', nombres.toUpperCase());
+    formData.append('Apellidos', apellidos.toUpperCase());
+    formData.append('TipoDocumento', parseInt(tipoDocumento));
+    formData.append('Sexo', parseInt(sexo));
+    formData.append('NumeroDocumento', numeroDocumento.toUpperCase());
+    formData.append('FechaNacimiento', fechaNacimiento);
+    formData.append('Direccion', direccion.toUpperCase());
+
+    const fotoInput = document.getElementById('add-foto');
+    if (fotoInput.files.length > 0) {
+        formData.append('foto', fotoInput.files[0]);
+    }
+
+    $.ajax({
+        url: '/Trabajador/AgregarTrabajador',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            if (response.success) {
+                $('#addTrabajadorModal').modal('hide');
+                $('#tablaTrabajadores').DataTable().ajax.reload();
+
+                $('#formAddTrabajador')[0].reset();
+                $('#add-previewFoto').attr('src', '/images/default-user.png');
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: response.message,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            } else {
+                Swal.fire({
+                    position: 'top',
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
+            }
+        },
+        error: function (xhr, status, error) {
+            let mensaje = 'Ocurrió un error al guardar el trabajador.';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                mensaje = xhr.responseJSON.message;
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: mensaje
+            });
+        }
     });
-});
+}

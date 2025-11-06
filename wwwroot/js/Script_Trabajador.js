@@ -249,7 +249,8 @@ function cargarDatosTrabajador(id) {
             $('#edit-direccion').val(trabajador.direccion);
 
             if (trabajador.foto) {
-                $('#edit-previewFoto').attr('src', trabajador.foto);
+                const timestamp = new Date().getTime();
+                $('#edit-previewFoto').attr('src', trabajador.foto + '?t=' + timestamp);
             } else {
                 $('#edit-previewFoto').attr('src', '/images/default-user.png');
             }

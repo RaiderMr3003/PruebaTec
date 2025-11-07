@@ -2,7 +2,288 @@
     ViewData["Title"] = "Prueba Técnica";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="card shadow-lg border-0">
+        <!-- Header -->
+        <div class="card-header bg-primary text-white py-4">
+            <div class="text-center">
+                <h1 class="display-5 fw-bold mb-3">
+                    <i class="bi bi-people-fill"></i> Módulo de Trabajadores
+                </h1>
+                <p class="lead mb-2">Prueba Técnica - Analista Programador .NET</p>
+                <p class="mb-0 fs-5"><strong>MYPER Software</strong></p>
+            </div>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+            <!-- Objetivo -->
+            <section class="mb-5">
+                <h2 class="h3 text-primary border-bottom pb-2 mb-4">
+                    <i class="bi bi-bullseye"></i> Objetivo del Proyecto
+                </h2>
+                <div class="alert alert-info border-start border-4 border-info">
+                    <p class="lead mb-0">
+                        Desarrollar un módulo web completo de <strong>mantenimiento de trabajadores</strong>
+                        utilizando <strong>.NET Core</strong>, implementando CRUD completo con buenas prácticas
+                        de desarrollo y documentación.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Funcionalidades -->
+            <section class="mb-5">
+                <h2 class="h3 text-primary border-bottom pb-2 mb-4">
+                    <i class="bi bi-list-check"></i> Funcionalidades Principales
+                </h2>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="card border-primary h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-list-ul fs-1 text-primary mb-3"></i>
+                                <h5 class="card-title">Listado</h5>
+                                <p class="card-text">Visualizar todos los trabajadores registrados</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-success h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-plus-circle-fill fs-1 text-success mb-3"></i>
+                                <h5 class="card-title">Registro</h5>
+                                <p class="card-text">Agregar nuevos trabajadores (modal)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-warning h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-pencil-square fs-1 text-warning mb-3"></i>
+                                <h5 class="card-title">Edición</h5>
+                                <p class="card-text">Actualizar datos de trabajadores (modal)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-danger h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-trash-fill fs-1 text-danger mb-3"></i>
+                                <h5 class="card-title">Eliminación</h5>
+                                <p class="card-text">Eliminar registros con confirmación</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Campos -->
+            <section class="mb-5">
+                <h2 class="h3 text-primary border-bottom pb-2 mb-4">
+                    <i class="bi bi-database-fill"></i> Campos del Registro
+                </h2>
+                <div class="row g-2">
+                    <div class="col-md-4">
+                        <span class="badge bg-secondary w-100 py-2 fs-6">
+                            <i class="bi bi-person"></i> Nombres
+                        </span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="badge bg-secondary w-100 py-2 fs-6">
+                            <i class="bi bi-person-badge"></i> Apellidos
+                        </span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="badge bg-secondary w-100 py-2 fs-6">
+                            <i class="bi bi-card-list"></i> Tipo de Documento
+                        </span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="badge bg-secondary w-100 py-2 fs-6">
+                            <i class="bi bi-hash"></i> Nº Documento
+                        </span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="badge bg-secondary w-100 py-2 fs-6">
+                            <i class="bi bi-gender-ambiguous"></i> Sexo
+                        </span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="badge bg-secondary w-100 py-2 fs-6">
+                            <i class="bi bi-calendar-event"></i> Fecha Nacimiento
+                        </span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="badge bg-secondary w-100 py-2 fs-6">
+                            <i class="bi bi-camera-fill"></i> Foto
+                        </span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="badge bg-secondary w-100 py-2 fs-6">
+                            <i class="bi bi-geo-alt-fill"></i> Dirección
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tecnologías -->
+            <section class="mb-5">
+                <h2 class="h3 text-primary border-bottom pb-2 mb-4">
+                    <i class="bi bi-gear-fill"></i> Stack Tecnológico
+                </h2>
+                <div class="row g-4 text-center">
+                    <div class="col-md-4">
+                        <div class="card bg-light h-100">
+                            <div class="card-body">
+                                <i class="bi bi-code-square fs-1 text-primary mb-3"></i>
+                                <h5 class="card-title">.NET Core 8+</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-light h-100">
+                            <div class="card-body">
+                                <i class="bi bi-database fs-1 text-success mb-3"></i>
+                                <h5 class="card-title">SQL Server + EF Core</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-light h-100">
+                            <div class="card-body">
+                                <i class="bi bi-bootstrap-fill fs-1 text-info mb-3"></i>
+                                <h5 class="card-title">Bootstrap 5</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Etapas -->
+            <section class="mb-5">
+                <h2 class="h3 text-primary border-bottom pb-2 mb-4">
+                    <i class="bi bi-map-fill"></i> Etapas de Desarrollo
+                </h2>
+
+                <div class="card mb-3 border-start border-4 border-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <span class="badge bg-primary rounded-circle me-2">1</span>
+                            Prototipado (UI/UX)
+                        </h5>
+                        <p class="card-text">
+                            Diseño de interfaz en Figma/Adobe XD con pantallas de listado, registro,
+                            edición y confirmación.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card mb-3 border-start border-4 border-success">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <span class="badge bg-success rounded-circle me-2">2</span>
+                            Desarrollo Backend & Frontend
+                        </h5>
+                        <p class="card-text">
+                            Implementación con .NET Core, Entity Framework, procedimientos almacenados
+                            y modales interactivos.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card mb-3 border-start border-4 border-warning">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <span class="badge bg-warning rounded-circle me-2">3</span>
+                            Validación y QA
+                        </h5>
+                        <p class="card-text">
+                            Pruebas funcionales documentadas con casos de prueba, evidencias y pruebas unitarias.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card mb-3 border-start border-4 border-info">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <span class="badge bg-info rounded-circle me-2">4</span>
+                            Presentación Técnica
+                        </h5>
+                        <p class="card-text">
+                            Video explicativo (Loom 5-10 min) mostrando arquitectura, decisiones técnicas
+                            y demostración en vivo.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bonus -->
+            <section class="mb-5">
+                <h2 class="h3 text-primary border-bottom pb-2 mb-4">
+                    <i class="bi bi-star-fill"></i> Características Bonus
+                </h2>
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Filtro por sexo en listado
+                    </div>
+                    <div class="list-group-item">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Código de colores: azul (M) / naranja (F)
+                    </div>
+                    <div class="list-group-item">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Diseño responsivo (desktop/móvil)
+                    </div>
+                    <div class="list-group-item">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Repositorio GitHub con commits descriptivos
+                    </div>
+                    <div class="list-group-item">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Pruebas
+                    </div>
+                </div>
+            </section>
+
+            <!-- Entregables -->
+            <section class="mb-4">
+                <h2 class="h3 text-primary border-bottom pb-2 mb-4">
+                    <i class="bi bi-box-seam-fill"></i> Entregables
+                </h2>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="alert alert-primary mb-0">
+                            <a href="https://www.figma.com/design/UKxqAXOKsBKdi2fg8gJfOK/Prototipo---Prueba-T%C3%A9cnica-Virtual?node-id=0-1&t=Un2BfmhSxPV106jl-1"><i class="bi bi-link-45deg fs-4"></i> Enlace al prototipo</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="alert alert-dark mb-0">
+                            <a href="https://github.com/RaiderMr3003/PruebaTec"><i class="bi bi-github fs-4"></i> Repositorio público en GitHub</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="alert alert-success mb-0">
+                            <i class="bi bi-file-earmark-code fs-4"></i> Script de base de datos (.sql)
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="alert alert-warning mb-0">
+                            <i class="bi bi-clipboard-check fs-4"></i> Documentación de pruebas QA
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="alert alert-info mb-0">
+                            <i class="bi bi-camera-video fs-4"></i> Video explicativo en Loom
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer bg-light text-center py-3">
+            <small class="text-muted">
+                <i class="bi bi-calendar3"></i> Documento de Prueba Técnica - MYPER Software
+            </small>
+        </div>
+    </div>
 </div>

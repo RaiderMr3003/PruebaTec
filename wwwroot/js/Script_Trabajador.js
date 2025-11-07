@@ -115,6 +115,18 @@ function initTable() {
                 width: '5%'
             }
         ],
+        rowCallback: function (row, data, index) {
+        const sexo = data.oSexo.abrev;
+
+        $(row).removeClass('color-masculino color-femenino color-otro');
+        if (sexo === 'M') {
+            $(row).addClass('color-masculino');
+        } else if (sexo === 'F') {
+            $(row).addClass('color-femenino');
+        } else if (sexo === 'O') {
+            $(row).addClass('color-otro');
+        }
+    },
         language: {
             url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
             search: "",

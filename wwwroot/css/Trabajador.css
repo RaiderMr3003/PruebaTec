@@ -20,3 +20,16 @@
         padding: 1rem;
     }
 }
+
+
+.color-masculino {
+    background-color: #c3ddf7 !important;
+}
+
+.color-femenino {
+    background-color: #f7d8c0 !important;
+}
+
+.color-otro {
+    background-color: #dbdbdb !important;
+}
